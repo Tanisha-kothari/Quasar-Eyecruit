@@ -43,7 +43,7 @@ export default function Home() {
 
   return (
     <div className="container mx-auto p-4">
-      <h1 className="text-2xl font-bold mb-4">Skill-Based Question Generator</h1>
+      <h1 className="text-2xl font-bold mb-4">EyeCruit</h1>
       <form onSubmit={handleSubmit} className="mb-4">
         <div className="mb-4">
           <label htmlFor="skills" className="block text-sm font-medium text-gray-700">
@@ -83,7 +83,16 @@ export default function Home() {
           {loading ? "Generating..." : "Generate Questions"}
         </button>
       </form>
-      {questions.length > 0 && (
+
+      {/* Show Preloader GIF when loading
+      {loading && (
+        <div className="flex justify-center items-center h-40">
+          <img src="/preloader.gif" alt="Loading..." className="w-16 h-16" />
+        </div>
+      )} */}
+
+      {/* Show Questions when available */}
+      {!loading && questions.length > 0 && (
         <div className="mt-8">
           <h2 className="text-xl font-semibold mb-4">Generated Question:</h2>
           <div className="p-4 bg-gray-100 rounded-lg">
