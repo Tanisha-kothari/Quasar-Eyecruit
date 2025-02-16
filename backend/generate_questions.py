@@ -1,21 +1,21 @@
 import sys
 import json
-import openai
+import google.generativeai as genai
 import os
 from dotenv import load_dotenv
 
 # Load environment variables from .env
 load_dotenv()
 
-# Get the OpenAI API key from .env
-OPENAI_API_KEY = os.getenv('OPENAI_API_KEY')
+# Get the Gemini API key from .env
+GEMINI_API_KEY = os.getenv('GEMINI_API_KEY')
 
-if not OPENAI_API_KEY:
-    print("Error: OPENAI_API_KEY is not set in the .env file.")
+if not GEMINI_API_KEY:
+    print("Error: GEMINI_API_KEY is not set in the .env file.")
     sys.exit(1)
 
-# Configure OpenAI API
-openai.api_key = OPENAI_API_KEY
+# Configure Gemini API
+genai.configure(api_key=GEMINI_API_KEY)
 
 def generate_questions(skills, difficulty):
     """Generates interview questions based on skills and difficulty."""
@@ -33,19 +33,14 @@ def generate_questions(skills, difficulty):
     """
 
     try:
-        # Use OpenAI's GPT model to generate questions
-        response = openai.ChatCompletion.create(
-            model="gpt-3.5-turbo",  # Use GPT-3.5 Turbo
-            messages=[
-                {"role": "system", "content": "You are a helpful assistant that generates interview questions."},
-                {"role": "user", "content": prompt}
-            ]
-        )
-        if response and response.choices:
-            questions = response.choices[0].message['content'].strip().split('\n')
+        model = genai.GenerativeModel("gemini-pro")  # Use Gemini Pro model
+        response = model.generate_content(prompt)
+
+        if response and response.text:
+            questions = response.text.strip().split("\n")
             return [q for q in questions if q.strip()]  # Filter out empty lines
         else:
-            print("Error: No response from OpenAI API.")
+            print("Error: No response from Gemini API.")
             return []
     except Exception as e:
         print(f"Error generating questions: {e}")
