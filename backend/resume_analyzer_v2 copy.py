@@ -10,7 +10,7 @@ import time
 load_dotenv()
 
 # Get the OpenAI API key from .env
-OPENAI_API_KEY = "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"
+OPENAI_API_KEY = ""
 
 if not OPENAI_API_KEY:
     print("Error: OPENAI_API_KEY is not set in the .env file.")
